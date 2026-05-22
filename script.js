@@ -93,6 +93,7 @@ function selectOption(e, opt) {
     const target = e.currentTarget;
     target.classList.add('selected');
 
+    // Avança de forma automática após 450ms para apreciar o feedback visual do clique
     setTimeout(() => {
         fadeOut('quiz', () => {
             if (q.triggerGame) {
@@ -106,7 +107,7 @@ function selectOption(e, opt) {
                 }
             }
         });
-    }, 400);
+    }, 450);
 }
 
 // Mini-game logic
@@ -135,8 +136,8 @@ function spawnCat() {
     cat.className = 'cat-emoji';
     cat.textContent = '🐈';
     
-    // Transição suave e ultra rápida para o gatinho arisco deslizar
-    cat.style.transition = 'left 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), top 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.15s';
+    // Transição suave e extremamente rápida para o gatinho psicopata frenético deslizar
+    cat.style.transition = 'left 0.18s cubic-bezier(0.25, 0.46, 0.45, 0.94), top 0.18s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.12s';
     
     gameArea.appendChild(cat);
 
@@ -158,8 +159,8 @@ function spawnCat() {
     // Limpa o temporizador anterior antes de criar um novo
     if (catMoveInterval) clearInterval(catMoveInterval);
 
-    // O gatinho psicopata muda de posição sozinho de forma arisca a cada 600ms!
-    catMoveInterval = setInterval(reposition, 600);
+    // O gatinho psicopata muda de posição sozinho de forma arisca a cada 400ms!
+    catMoveInterval = setInterval(reposition, 400);
 }
 
 function catchCat(e) {
@@ -197,18 +198,35 @@ function showResult() {
     const detailsContainer = document.getElementById('result-details');
     detailsContainer.innerHTML = ''; // Limpa o conteúdo estático do HTML
 
-    // 1. Café (sempre elevado)
-    const cafeItem = document.createElement('div');
-    cafeItem.className = 'result-item';
-    cafeItem.innerHTML = '☕ nível de café: elevado';
-    detailsContainer.appendChild(cafeItem);
+    // 1. Pergunta 1: Ambiente que combina (índice 0)
+    const p1Answer = userAnswers[0];
+    if (p1Answer) {
+        const p1Item = document.createElement('div');
+        p1Item.className = 'result-item';
+        switch (p1Answer.value) {
+            case 'cafe':
+                p1Item.innerHTML = '☕ ambiente favorito: cafeteria aconchegante 🤎';
+                break;
+            case 'praia':
+                p1Item.innerHTML = '🌊 ambiente favorito: praia & maresia 🌅';
+                break;
+            case 'acampa':
+                p1Item.innerHTML = '🏕️ ambiente favorito: acampar no mato 🏕️';
+                break;
+            case 'junina':
+                p1Item.innerHTML = '🎉 ambiente favorito: quentão & festa junina 🌽';
+                break;
+            default:
+                p1Item.innerHTML = '🌍 ambiente favorito: sintonizado com o mundo';
+        }
+        detailsContainer.appendChild(p1Item);
+    }
 
-    // 2. Resposta da Pergunta 2 (Nível de perigo - índice 1)
+    // 2. Pergunta 2: Nível de perigo (índice 1)
     const p2Answer = userAnswers[1];
     if (p2Answer) {
         const p2Item = document.createElement('div');
         p2Item.className = 'result-item';
-        
         switch (p2Answer.value) {
             case 'jiujitsu':
                 p2Item.innerHTML = '🥋 risco de mata leão: preocupante 🔥';
@@ -228,12 +246,11 @@ function showResult() {
         detailsContainer.appendChild(p2Item);
     }
 
-    // 3. Resposta da Pergunta 3 (O que mais te irrita - índice 2)
+    // 3. Pergunta 3: O que mais irrita (índice 2)
     const p3Answer = userAnswers[2];
     if (p3Answer) {
         const p3Item = document.createElement('div');
         p3Item.className = 'result-item';
-
         switch (p3Answer.value) {
             case 'bebada':
                 p3Item.innerHTML = '🍺 paciência com gente bêbada: zero 🚫';
@@ -253,7 +270,55 @@ function showResult() {
         detailsContainer.appendChild(p3Item);
     }
 
-    // 4. Ameaça Felina (Baseado no mini-game)
+    // 4. Pergunta 4: Rolê ideal (índice 3)
+    const p4Answer = userAnswers[3];
+    if (p4Answer) {
+        const p4Item = document.createElement('div');
+        p4Item.className = 'result-item';
+        switch (p4Answer.value) {
+            case 'cafe':
+                p4Item.innerHTML = '💬 rolê ideal: café da tarde & conversa boa ☕';
+                break;
+            case 'praia':
+                p4Item.innerHTML = '🌅 rolê ideal: pé na areia no fim de tarde 🌊';
+                break;
+            case 'gastro':
+                p4Item.innerHTML = '🍝 rolê ideal: tour gastronômico (comer bem é lei!) 🍕';
+                break;
+            case 'trilha':
+                p4Item.innerHTML = '🏕️ rolê ideal: trilha na natureza & acampamento 🏕️';
+                break;
+            default:
+                p4Item.innerHTML = '✨ rolê ideal: sair da rotina';
+        }
+        detailsContainer.appendChild(p4Item);
+    }
+
+    // 5. Pergunta 5: Personalidade (índice 4)
+    const p5Answer = userAnswers[4];
+    if (p5Answer) {
+        const p5Item = document.createElement('div');
+        p5Item.className = 'result-item';
+        switch (p5Answer.value) {
+            case 'low':
+                p5Item.innerHTML = '😌 personalidade: elegantemente low profile 🤫';
+                break;
+            case 'debochada':
+                p5Item.innerHTML = '😂 personalidade: debochada com classe 💅';
+                break;
+            case 'perigosa':
+                p5Item.innerHTML = '🥋 personalidade: altamente perigosa (cuidado) 💥';
+                break;
+            case 'senhora':
+                p5Item.innerHTML = '👵 personalidade: jovem senhora assumida ☕';
+                break;
+            default:
+                p5Item.innerHTML = '✨ personalidade: única & cativante';
+        }
+        detailsContainer.appendChild(p5Item);
+    }
+
+    // 6. Mini-game: Controle de Felinos
     const catItem = document.createElement('div');
     catItem.className = 'result-item';
     catItem.innerHTML = `🐈 controle de felinos: ${catsCaught}/5 gatos laranja capturados 😌`;
